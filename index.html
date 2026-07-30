@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keerthi's BI — Data Analytics & Power BI</title>
+<meta name="description" content="Data analytics specialist building Power BI dashboards, DAX models, and Python pipelines for medical device sales and operations teams.">
+<style>
+  :root{
+    --ink:#182635;
+    --ink-soft:#41536b;
+    --paper:#F3F5F4;
+    --paper-raised:#ffffff;
+    --line:#dbe1e0;
+    --gold:#B8863B;
+    --gold-soft:#e7d3b0;
+    --teal:#2F6F62;
+    --mono: "IBM Plex Mono", "Courier New", monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --display: "Space Grotesk", var(--sans);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-0.01em;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  section{padding:96px 0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--teal);display:inline-block;}
+
+  /* NAV */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(243,245,244,.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:18px;padding-bottom:18px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:17px;}
+  .brand-mark{
+    width:32px;height:32px;border-radius:8px;
+    background:var(--ink);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:12px;letter-spacing:.02em;
+    flex-shrink:0;
+  }
+  .navlinks{display:flex;gap:32px;font-size:14px;color:var(--ink-soft);}
+  .navlinks a:hover{color:var(--ink);}
+  .nav-cta{
+    font-family:var(--mono);font-size:13px;
+    padding:9px 16px;border:1px solid var(--ink);border-radius:100px;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--ink);color:var(--paper);}
+  @media (max-width:720px){ .navlinks{display:none;} }
+
+  /* HERO */
+  .hero{padding-top:108px;padding-bottom:88px;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:center;}
+  @media (max-width:860px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{
+    font-size:clamp(34px,4.4vw,52px);
+    line-height:1.16;
+    font-weight:600;
+    letter-spacing:-0.015em;
+  }
+  .hero .accent{color:var(--gold);}
+  .hero p.lede{
+    font-size:17.5px;color:var(--ink-soft);max-width:480px;margin-top:24px;line-height:1.7;
+  }
+  .hero-ctas{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink);color:var(--paper);
+    padding:13px 22px;border-radius:100px;font-size:14px;font-weight:600;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary:hover{background:var(--teal);}
+  .btn-secondary{
+    padding:13px 22px;border-radius:100px;font-size:14px;font-weight:600;
+    border:1px solid var(--line);
+  }
+  .btn-secondary:hover{border-color:var(--ink);}
+  .hero-meta{
+    margin-top:44px;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+    padding-top:20px;border-top:1px solid var(--line);
+  }
+  .dot{color:var(--line);}
+
+  /* SIGNATURE GRAPHIC */
+  .sig-wrap{position:relative;}
+  .sig-caption{
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+    text-align:center;margin-top:18px;letter-spacing:.04em;
+  }
+  #sig rect, #sig text, #sig line, #sig path{ }
+  .messy .num{
+    animation: settle 1.4s cubic-bezier(.2,.7,.2,1) forwards;
+    transform-origin:center;
+  }
+  .clean-el{
+    opacity:0;
+    animation: rise .6s ease forwards;
+    animation-delay:1.1s;
+  }
+  @keyframes settle{
+    0%{ }
+    100%{ transform: translate(0,0) rotate(0deg); opacity:.18; }
+  }
+  @keyframes rise{
+    0%{ opacity:0; transform:translateY(8px);}
+    100%{ opacity:1; transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .messy .num, .clean-el{animation:none !important; opacity:1;}
+  }
+
+  /* STORY */
+  .story{background:var(--ink);color:var(--paper);}
+  .story .eyebrow{color:var(--gold-soft);}
+  .story .eyebrow::before{background:var(--gold-soft);}
+  .story h2{font-size:clamp(26px,3.6vw,38px);max-width:640px;margin-bottom:28px;color:var(--paper);}
+  .story-body{max-width:680px;}
+  .story-body p{font-size:17px;line-height:1.75;color:#c9d2da;margin:0 0 20px;}
+  .story-body p:first-child{color:var(--paper);font-size:19px;}
+  .story-sign{font-family:var(--mono);font-size:13px;color:var(--gold-soft);margin-top:8px;}
+
+  /* APPROACH */
+  .approach{background:var(--paper-raised);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .approach-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  @media (max-width:860px){ .approach-grid{grid-template-columns:1fr;gap:32px;} }
+  .approach p{font-size:19px;line-height:1.65;color:var(--ink);max-width:480px;}
+  .context-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+  .tag{
+    font-family:var(--mono);font-size:12px;padding:7px 12px;border:1px solid var(--line);
+    border-radius:100px;color:var(--ink-soft);
+  }
+
+  /* SERVICES */
+  .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:44px;}
+  @media (max-width:720px){ .svc-grid{grid-template-columns:1fr;} }
+  .svc{background:var(--paper);padding:32px;}
+  .svc h3{font-size:19px;margin-bottom:10px;}
+  .svc p{color:var(--ink-soft);font-size:14.5px;margin:0;}
+  .svc .svc-tag{font-family:var(--mono);font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:block;}
+
+  /* WORK / TIMELINE */
+  .timeline{margin-top:48px;}
+  .tl-year{
+    display:grid;grid-template-columns:120px 1fr;gap:32px;
+    padding:36px 0;border-top:1px solid var(--line);
+  }
+  .tl-year:last-child{border-bottom:1px solid var(--line);}
+  @media (max-width:720px){ .tl-year{grid-template-columns:1fr;gap:12px;} }
+  .tl-yr-label{font-family:var(--display);font-size:36px;font-weight:600;color:var(--ink);}
+  .tl-yr-sub{font-family:var(--mono);font-size:12px;color:var(--teal);margin-top:6px;text-transform:uppercase;letter-spacing:.06em;}
+  .tl-items{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px;}
+  @media (max-width:600px){ .tl-items{grid-template-columns:1fr;} }
+  .tl-item{
+    padding:16px 18px;background:var(--paper-raised);border:1px solid var(--line);border-radius:10px;
+  }
+  .tl-item h4{font-size:14.5px;font-weight:600;margin:0 0 6px;font-family:var(--sans);}
+  .tl-item p{margin:0;font-size:13.5px;color:var(--ink-soft);}
+
+  /* ABOUT */
+  .about{background:var(--paper-raised);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .about-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;}
+  @media (max-width:860px){ .about-grid{grid-template-columns:1fr;} }
+  .monogram{
+    width:120px;height:120px;border-radius:50%;
+    background:linear-gradient(135deg,var(--ink),var(--teal));
+    color:var(--paper);display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-size:34px;font-weight:600;
+    margin-bottom:20px;
+  }
+  .about-label{font-family:var(--mono);font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+  .about-name{font-family:var(--display);font-size:22px;font-weight:600;margin-bottom:24px;}
+  .about p.bio{font-size:16.5px;color:var(--ink);max-width:560px;margin-bottom:28px;}
+  .about-block{margin-bottom:26px;}
+  .about-block h4{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 0 12px;}
+  .edu-item{margin-bottom:12px;}
+  .edu-item strong{font-size:14.5px;}
+  .edu-item span{display:block;font-size:13px;color:var(--ink-soft);}
+  .pill-row{display:flex;flex-wrap:wrap;gap:9px;}
+  .pill{font-family:var(--mono);font-size:12.5px;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);}
+  .cert-list{margin:0;padding:0;list-style:none;font-size:13.5px;color:var(--ink-soft);}
+  .cert-list li{padding:6px 0;border-bottom:1px dashed var(--line);}
+  .cert-list li:last-child{border-bottom:none;}
+
+  /* CONTACT */
+  .contact{text-align:center;padding:110px 0;}
+  .contact h2{font-size:clamp(28px,4vw,42px);max-width:640px;margin:0 auto 18px;}
+  .contact p{color:var(--ink-soft);max-width:480px;margin:0 auto 34px;font-size:16px;}
+
+  footer{border-top:1px solid var(--line);padding:28px 0;}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-soft);flex-wrap:wrap;gap:10px;}
+  .foot-row a:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="brand"><span class="brand-mark">KB</span>Keerthi's&nbsp;<span style="color:var(--gold);">BI</span></a>
+    <div class="navlinks">
+      <a href="#services">What I do</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+    </div>
+    <a href="mailto:srmylav@gmail.com" class="nav-cta">Get in touch</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Data Analytics · Power BI · Python</div>
+        <h1>Messy sales data, turned into <span class="accent">decisions leadership can act on.</span></h1>
+        <p class="lede">I build Power BI dashboards, DAX models, and Python pipelines for medical device sales and operations teams — replacing manual spreadsheets with systems people actually trust.</p>
+        <div class="hero-ctas">
+          <a href="mailto:srmylav@gmail.com" class="btn-primary">Start a conversation →</a>
+          <a href="#work" class="btn-secondary">See the work</a>
+        </div>
+        <div class="hero-meta">
+          <span>SruthaKeerthi Mylavarapu</span><span class="dot">·</span>
+          <span>Edmond, OK</span><span class="dot">·</span>
+          <span>Data Analytics Specialist</span>
+        </div>
+      </div>
+
+      <div class="sig-wrap">
+        <svg id="sig" viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A clean sales performance dashboard card">
+          <defs>
+            <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#182635" flood-opacity="0.14"/>
+            </filter>
+          </defs>
+
+          <!-- single clean dashboard card -->
+          <g filter="url(#cardShadow)">
+            <rect x="20" y="24" width="280" height="212" rx="16" fill="#ffffff" stroke="#e4e8e7"/>
+          </g>
+
+          <!-- header -->
+          <circle cx="40" cy="46" r="3.5" fill="#2F6F62"/>
+          <text x="50" y="50" font-family="IBM Plex Mono" font-size="10" letter-spacing="1" fill="#2F6F62">SALES PERFORMANCE · Q3</text>
+
+          <!-- three quiet KPI stats -->
+          <g class="clean-el">
+            <text x="40" y="82" font-family="IBM Plex Mono" font-size="9" fill="#8891A0">REVENUE</text>
+            <text x="40" y="102" font-family="Space Grotesk, sans-serif" font-size="20" font-weight="600" fill="#182635">$482K</text>
+
+            <text x="130" y="82" font-family="IBM Plex Mono" font-size="9" fill="#8891A0">GROWTH</text>
+            <text x="130" y="102" font-family="Space Grotesk, sans-serif" font-size="20" font-weight="600" fill="#B8863B">+18.4%</text>
+
+            <text x="220" y="82" font-family="IBM Plex Mono" font-size="9" fill="#8891A0">ACCURACY</text>
+            <text x="220" y="102" font-family="Space Grotesk, sans-serif" font-size="20" font-weight="600" fill="#2F6F62">96%</text>
+          </g>
+
+          <line x1="40" y1="116" x2="280" y2="116" stroke="#eef0ef" stroke-width="1"/>
+
+          <!-- simple bar + trend chart -->
+          <g class="clean-el">
+            <rect x="45" y="176" width="20" height="34" rx="4" fill="#eef0ef"/>
+            <rect x="80" y="160" width="20" height="50" rx="4" fill="#eef0ef"/>
+            <rect x="115" y="150" width="20" height="60" rx="4" fill="#eef0ef"/>
+            <rect x="150" y="138" width="20" height="72" rx="4" fill="#e7d3b0"/>
+            <rect x="185" y="120" width="20" height="90" rx="4" fill="#e7d3b0"/>
+            <rect x="220" y="104" width="20" height="106" rx="4" fill="#B8863B"/>
+
+            <polyline points="55,192 90,178 125,166 160,150 195,132 230,110" fill="none" stroke="#2F6F62" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="230" cy="110" r="4" fill="#2F6F62"/>
+          </g>
+        </svg>
+        <div class="sig-caption">clean, governed dashboards — built to be trusted</div>
+        <div class="pill-row" style="justify-content:center;margin-top:14px;">
+          <span class="pill">Power BI</span>
+          <span class="pill">Python</span>
+          <span class="pill">Forecasting</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story">
+    <div class="wrap">
+      <div class="eyebrow">A small town in India to Oklahoma</div>
+      <h2>The short version of how I got here.</h2>
+      <div class="story-body">
+        <p>Hey — I'm SruthaKeerthi Mylavarapu, though most people just call me Keerthi.</p>
+        <p>My data journey started at Cognizant, right out of undergrad, where I worked as a Business Analyst and got a front-row seat to how powerful data can be when it's used to make smart decisions. That's what pushed me to leave home and cross the world for a Master's in Management Information Systems.</p>
+        <p>Oklahoma is where I landed — literally the first place I arrived in the US, to study at Oklahoma State University's Spears School of Business. I expected it might just be a stop along the way. It became home instead. Between coursework in SQL, Excel, Python, and R — with Power BI quickly becoming my weapon of choice — and hands-on work as a Data Analyst on real university data, I found the version of this work I actually wanted to do — not just building charts, but connecting data to the decisions people were trying to make. I graduated with a 4.0 GPA, and somewhere in that process, I stopped thinking of Oklahoma as temporary.</p>
+        <p>When I joined ZBRX Medical, that feeling only got stronger. I found a place to keep growing — from Data Analyst to Data Analytics Specialist — doing exactly what pulled me into this field in the first place: turning fragmented, manual processes into systems people trust.</p>
+        <p>I'm passionate about connecting data insights to business strategy, and always glad to talk with anyone building something in data analysis, business intelligence, or beyond.</p>
+        <div class="story-sign">— Keerthi, Edmond, OK</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section class="approach">
+    <div class="wrap approach-grid">
+      <div>
+        <div class="eyebrow">The approach</div>
+        <p>I spend most of my time inside one multi-entity medical device sales organization, which means I don't just build dashboards — I understand billing cycles, rep territories, commission structures, and exactly where the data usually breaks.</p>
+      </div>
+      <div>
+        <div class="eyebrow">Where I work</div>
+        <div class="context-tags">
+          <span class="tag">Medical Device Sales</span>
+          <span class="tag">Healthcare Operations</span>
+          <span class="tag">Multi-Entity Reporting</span>
+          <span class="tag">Sales Performance &amp; Rep Ranking</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="eyebrow">What I do</div>
+      <h2 style="font-size:clamp(26px,3.4vw,36px);max-width:640px;">Hands-on analytics for teams that need clarity, not just charts.</h2>
+
+      <div class="svc-grid">
+        <div class="svc">
+          <span class="svc-tag">Reporting</span>
+          <h3>Power BI &amp; DAX Modeling</h3>
+          <p>Enterprise dashboards and semantic models — relationships, hierarchies, and DAX measures (MTD/QTD/YTD, growth, forecasting) that hold up under real slicer filtering.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Automation</span>
+          <h3>Data Pipelines &amp; Automation</h3>
+          <p>Python scripts and Power Automate workflows that replace manual Excel processes — closing archives, email automation, reconciliation checks.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Performance</span>
+          <h3>Performance Tracking</h3>
+          <p>Rep- and team-level performance tracking across multiple entities — from sales power-rankings to labor and overtime analysis that helps leadership manage hours more efficiently.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Forecasting</span>
+          <h3>Predictive &amp; Trend Models</h3>
+          <p>Weighted historical forecasting for case volume and revenue, expanded to the granularity leadership actually needs to plan around.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Governance</span>
+          <h3>Data Validation &amp; QA</h3>
+          <p>Tracing discrepancies back to their source — silent exclusions, sign errors, broken relationships — so numbers survive an audit.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Integration</span>
+          <h3>Systems &amp; Migration</h3>
+          <p>Bringing new source systems (like Brightree) and legacy trackers into a single governed Power BI model, with row-level security where it's needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="wrap">
+      <div class="eyebrow">Selected work</div>
+      <h2 style="font-size:clamp(26px,3.4vw,36px);max-width:640px;">A few things I'm proud of.</h2>
+
+      <div class="svc-grid" style="margin-top:44px;">
+        <div class="svc">
+          <span class="svc-tag">Performance</span>
+          <h3>Role-Based Sales Dashboards</h3>
+          <p>Built separate Power BI views for VPs, Managers, and Reps — each person sees their sales and activity, scaled to what matters at their level.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Scoring</span>
+          <h3>Case Submission Scoring (CSSD)</h3>
+          <p>Tracks how quickly a case gets submitted after surgery, turns that lead time into points, and rolls it up into one score reps can watch improve.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Reporting</span>
+          <h3>Friday Performance Reports</h3>
+          <p>An automated report sent to every rep each Friday, breaking down their week's performance by surgeon.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Automation</span>
+          <h3>Historical Closing Archive</h3>
+          <p>A Python pipeline that pulls monthly closing data into one clean, Power BI–ready file — no more manual month-end merges.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Reporting</span>
+          <h3>Expense Reporting Dashboard</h3>
+          <p>Built from scratch for the CFO — KPI cards, trend lines, and account-level detail, with month-over-month and year-to-date tracking.</p>
+        </div>
+        <div class="svc">
+          <span class="svc-tag">Governance</span>
+          <h3>Target Tracker Rebuild</h3>
+          <p>Fixed a calculation that was comparing actuals against the wrong target period — restoring trust in the numbers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div>
+        <div class="monogram">SK</div>
+        <div class="about-label">SruthaKeerthi Mylavarapu</div>
+        <div class="about-name">Data Analytics Specialist</div>
+
+        <div class="about-block">
+          <h4>Education</h4>
+          <div class="edu-item">
+            <strong>M.S. Management Information Systems</strong>
+            <span>Oklahoma State University · GPA 4.0 · May 2024</span>
+          </div>
+          <div class="edu-item">
+            <strong>B.E. Information Technology</strong>
+            <span>Chaitanya Bharathi Institute of Technology · GPA 3.5 · Aug 2021</span>
+          </div>
+        </div>
+
+        <div class="about-block">
+          <h4>Certifications</h4>
+          <ul class="cert-list">
+            <li>Microsoft Certified: Power BI Data Analyst Associate</li>
+            <li>Tableau Desktop Specialist</li>
+            <li>Python for Data Science, AI &amp; Development — IBM</li>
+            <li>Data Analysis with R Programming — Google</li>
+            <li>Advanced Excel Essentials for Data Analytics — Coursera</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow">About</div>
+        <p class="bio">I'm a data analyst with a Master's in Management Information Systems from Oklahoma State University, where I graduated with a 4.0 GPA. My path here ran through business analytics at Cognizant Technology Solutions in Hyderabad and research data work at OSU before I joined ROK Medical Management in 2024.</p>
+        <p class="bio">Today I design and maintain enterprise Power BI dashboards and semantic models for medical device sales and operations — building the DAX, the Python pipelines, and the governance behind them, so the numbers hold up when leadership relies on them.</p>
+
+        <div class="about-block">
+          <h4>Toolkit</h4>
+          <div class="pill-row">
+            <span class="pill">Power BI</span>
+            <span class="pill">DAX</span>
+            <span class="pill">Python</span>
+            <span class="pill">SQL</span>
+            <span class="pill">Power Automate</span>
+            <span class="pill">Tableau</span>
+            <span class="pill">SSIS</span>
+            <span class="pill">Excel / VBA</span>
+            <span class="pill">R</span>
+            <span class="pill">KNIME</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <div class="wrap">
+      <div class="eyebrow" style="justify-content:center;">Let's work together</div>
+      <h2>Let's make your reporting trustworthy.</h2>
+      <p>Whether it's a broken workflow, a DAX measure that won't behave, or a dashboard that needs to scale — I'd like to hear about it.</p>
+      <a href="mailto:srmylav@gmail.com" class="btn-primary">srmylav@gmail.com →</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 Keerthi's BI — SruthaKeerthi Mylavarapu</span>
+    <span><a href="https://www.linkedin.com/in/sruthakeerthimyl/" target="_blank" rel="noopener">linkedin.com/in/sruthakeerthimyl</a></span>
+    <span>Edmond, OK</span>
+  </div>
+</footer>
+
+</body>
+</html>
